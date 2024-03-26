@@ -6,6 +6,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import io.github.pixee.security.xstream.HardeningConverter;
 import org.axonframework.eventhandling.tokenstore.TokenStore;
 import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
@@ -78,6 +79,7 @@ public class AxonConfig {
     @Bean
     public XStream xStream() {
         XStream xStream = new XStream(new DomDriver());
+        xStream.registerConverter(new HardeningConverter());
         XStream.setupDefaultSecurity(xStream);
         xStream.allowTypesByWildcard(new String[]{
                 "com.springbank.user.core.models.**",
